@@ -43,12 +43,12 @@ class ProductData(QtWidgets.QMainWindow):
         id_row = self.table_model.item(row, 0).text()
         id_name = self.table_model.horizontalHeaderItem(0).text()
 
-        self.update = UpdateData(id_row, id_name)
+        self.update = UpdateData(id_row, id_name, self.args[0])
         self.update.show()
         self.hide()
 
     def add_new_product(self):
-        self.add = AddProduct()
+        self.add = AddProduct(self.args[0])
         self.add.show()
         self.hide()
 
@@ -64,14 +64,15 @@ class ProductData(QtWidgets.QMainWindow):
                 self.table_model.setItem(index_row, index_column, item)
 
     def exit(self):
-        self.profile = Profile(self.args[0])
+        self.profile = main.Profile(self.args[0])
         self.profile.show()
         self.hide()
 
 
 class AddProduct(QMainWindow):
-    def __init__(self, id_product=None):
+    def __init__(self, *args):
         super(AddProduct, self).__init__()
+        self.args = args
         uic.loadUi('Screens/add_product.ui', self)
         self.setWindowTitle('Добавление нового товара')
 
@@ -121,7 +122,11 @@ class AddProduct(QMainWindow):
         cur.execute("select CategoryID from Categories where CategoryName = ?",
                     (category_new,))
         test = cur.fetchone()
-        if category_new == '' or test is not None:
+        if category_new == '':
+            cur.execute("select CategoryID from Categories where CategoryName = ?",
+                        (self.comboBox_category.currentText(),))
+            id_category = cur.fetchone()[0]
+        elif test is not None:
             id_category = test[0]
         else:
             cur.execute("select CategoryID from Categories where CategoryName = ?", (category_new,))
@@ -140,7 +145,11 @@ class AddProduct(QMainWindow):
         cur.execute("select SupplierID from Suppliers where SupplierName = ?",
                     (supplier_new,))
         test = cur.fetchone()
-        if supplier_new == '' or test is not None:
+        if supplier_new == '':
+            cur.execute("select SupplierID from Suppliers where SupplierName = ?",
+                        (self.comboBox_suppliers.currentText(),))
+            id_supplier = cur.fetchone()[0]
+        elif test is not None:
             id_supplier = test[0]
         else:
             cur.execute("select SupplierID from Suppliers where SupplierName = ?", (supplier_new,))
@@ -182,15 +191,16 @@ class AddProduct(QMainWindow):
 
 
     def exit(self):
-        self.data = ProductData()
+        self.data = ProductData(self.args[0])
         self.data.show()
         self.hide()
 
 
 class UpdateData(QMainWindow):
-    def __init__(self, id_row, id_name):
+    def __init__(self, id_row, id_name, username):
         super(UpdateData, self).__init__()
         self.id_row = id_row
+        self.username = username
         uic.loadUi('Screens/add_product.ui', self)
         self.setWindowTitle('Добавление нового товара')
 
@@ -250,6 +260,52 @@ class UpdateData(QMainWindow):
         stock_quantity = self.lineEdit_2.text()
         unit_price = self.lineEdit_3.text()
 
+        category_new = self.lineEdit_4.text()
+        cur.execute("select CategoryID from Categories where CategoryName = ?",
+                    (category_new,))
+        test = cur.fetchone()
+        if category_new == '':
+            cur.execute("select CategoryID from Categories where CategoryName = ?",
+                        (self.comboBox_category.currentText(),))
+            id_category = cur.fetchone()[0]
+        elif test is not None:
+            id_category = test[0]
+        else:
+            cur.execute("select CategoryID from Categories where CategoryName = ?", (category_new,))
+            if cur.fetchone() is None:
+                name = 'CategoryName'
+                try:
+                    cur.execute(f"INSERT INTO Categories({name}) VALUES ('{category_new}')")
+                    conn.commit()
+                    cur.execute("select CategoryID from Categories where CategoryName = ?", (category_new,))
+                    id_category = cur.fetchone()[0]
+                except conn.Error as er:
+                    QMessageBox.information(self, 'Провал', 'Ошибка вставки новых категорий', QMessageBox.Ok)
+                    return
+
+        supplier_new = self.lineEdit_5.text()
+        cur.execute("select SupplierID from Suppliers where SupplierName = ?",
+                    (supplier_new,))
+        test = cur.fetchone()
+        if supplier_new == '':
+            cur.execute("select SupplierID from Suppliers where SupplierName = ?",
+                        (self.comboBox_suppliers.currentText(),))
+            id_supplier = cur.fetchone()[0]
+        elif test is not None:
+            id_supplier = test[0]
+        else:
+            cur.execute("select SupplierID from Suppliers where SupplierName = ?", (supplier_new,))
+            if cur.fetchone() is None:
+                name = 'SupplierName'
+                try:
+                    cur.execute(f"INSERT INTO Suppliers({name}) VALUES ('{supplier_new}')")
+                    conn.commit()
+                    cur.execute("select SupplierID from Suppliers where SupplierName = ?", (supplier_new,))
+                    id_supplier = cur.fetchone()[0]
+                except conn.Error as er:
+                    QMessageBox.information(self, 'Провал', 'Ошибка вставки новых поставщиков', QMessageBox.Ok)
+                    return
+
         if not (product_name and stock_quantity and unit_price):
             self.label_5.setText('Не все поля заполнены')
             self.label_5.show()
@@ -293,14 +349,19 @@ class UpdateData(QMainWindow):
         data = [item[0] for item in cur.fetchall()]
         self.comboBox_suppliers.addItems(data)
 
+    def replace_comma(self, value):
+        if isinstance(value, float):
+            return str(value).replace('.', ',')
+        return value
     def upload_data(self, data):
         self.label_2.setText(f'Номер записи - {data[0]}')
         self.lineEdit.setText(data[1])
         self.comboBox_category.setCurrentText(data[2])
         self.comboBox_suppliers.setCurrentText(data[3])
         self.lineEdit_2.setText(str(data[4]))
-        self.lineEdit_3.setText(data[5])
+        value = self.replace_comma(data[5])
+        self.lineEdit_3.setText(value)
     def exit(self):
-        self.data = ProductData()
+        self.data = ProductData(self.username)
         self.data.show()
         self.hide()
