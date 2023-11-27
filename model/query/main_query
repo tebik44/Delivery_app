@@ -44,6 +44,11 @@ CREATE TABLE Deliveries (
     FOREIGN KEY (supplier_id) REFERENCES Suppliers (SupplierID),
     FOREIGN KEY (product_id) REFERENCES Products (ProductID)
 );
+-- Добавляем пользователей
+INSERT INTO User (Login, Password) VALUES
+('admin', 'admin_pass'),
+('user1', 'user1_pass'),
+('user2', 'user2_pass');
 
 -- Добавляем категории продуктов
 INSERT INTO Categories (CategoryName) VALUES
@@ -61,8 +66,7 @@ INSERT INTO Suppliers (SupplierName) VALUES
 ('Мясной партнер'),
 ('Паста и крупы Ltd.');
 
-
--- Добавляем продукты (еда)
+-- Добавляем продукты (еду)
 INSERT INTO Products (ProductName, CategoryID, SupplierID, StockQuantity, UnitPrice) VALUES
 ('Яблоки', 1, 1, 100, 1.99),
 ('Молоко', 2, 2, 50, 2.49),
@@ -74,17 +78,14 @@ INSERT INTO Products (ProductName, CategoryID, SupplierID, StockQuantity, UnitPr
 ('Яйца', 4, 4, 60, 3.99),
 ('Рис', 5, 5, 25, 2.99);
 
--- Добавляем пользователя
-INSERT INTO Uesr (Login, Password) VALUES
-('admin', 'ad')
+-- Добавляем информацию о магазинах
+INSERT INTO Stores (store_id, store_name, location) VALUES
+(1, 'Продуктовый магазин "Зелёный угол"', 'Улица Первомайская, 10'),
+(2, 'Мясной рынок "Сочное мясо"', 'Улица Свободы, 25'),
+(3, 'Магазин "Сладкая жизнь"', 'Площадь Ленина, 5');
 
--- Заполнение таблицы Stores
-INSERT INTO Stores (store_name, location) VALUES
-    ('Продуктовый магазин "Зелёный угол"', 'Улица Первомайская, 10'),
-    ('Мясной рынок "Сочное мясо"', 'Улица Свободы, 25'),
-    ('Магазин "Сладкая жизнь"', 'Площадь Ленина, 5');
-
-INSERT INTO Deliveries (store_id, supplier_id, product_id, quantity, delivery_date) VALUES
-(1, 1, 1, 50, '2023-11-01'),
-(2, 2, 2, 25, '2023-11-02'),
-(3, 3, 3, 100, '2023-11-03');
+-- Добавляем информацию о поставках
+INSERT INTO Deliveries (delivery_id, store_id, supplier_id, product_id, quantity, delivery_date) VALUES
+(1, 1, 1, 1, 50, '2023-11-01'),
+(2, 2, 2, 2, 25, '2023-11-02'),
+(3, 3, 3, 3, 100, '2023-11-03');
