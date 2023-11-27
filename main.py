@@ -8,7 +8,9 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QVBoxLayout
 
 import Category_view
+import Delivery_view
 import Products_view
+import Store_view
 import Suppliers_view
 from model.model import Model
 
@@ -61,6 +63,19 @@ class Profile(QMainWindow):
         self.pushButton.clicked.connect(self.products)
         self.pushButton_2.clicked.connect(self.suppliers)
         self.pushButton_3.clicked.connect(self.category)
+        self.pushButton_4.clicked.connect(self.devivery)
+        self.pushButton_6.clicked.connect(self.store)
+
+
+    def store(self):
+        self.store = Store_view.StoreData(self.args[0])
+        self.store.show()
+        self.hide()
+
+    def devivery(self):
+        self.devivery = Delivery_view.DeliveryData(self.args[0])
+        self.devivery.show()
+        self.hide()
 
     def category(self):
         self.category = Category_view.CategoryData(self.args[0])

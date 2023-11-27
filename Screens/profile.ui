@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>474</width>
-    <height>366</height>
+    <width>519</width>
+    <height>456</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -47,6 +47,53 @@
      </widget>
     </item>
     <item>
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Candara</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color:rgb(255, 255, 0);
+background-color:rgb(170, 85, 127);
+</string>
+      </property>
+      <property name="text">
+       <string>Поставки в магазины</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButton_6">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Candara</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color:rgb(255, 255, 0);
+background-color:rgb(170, 85, 127);</string>
+      </property>
+      <property name="text">
+       <string>Магазины</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QPushButton" name="pushButton">
       <property name="minimumSize">
        <size>
@@ -61,8 +108,9 @@
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color:RGB(36, 50, 56);
-background-color:#fff6a5;</string>
+       <string notr="true">color:rgb(255, 255, 0);
+background-color:rgb(170, 85, 127);
+</string>
       </property>
       <property name="text">
        <string>Продукты</string>
@@ -84,9 +132,8 @@ background-color:#fff6a5;</string>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color:RGB(36, 50, 56);
-font-family: Candara;
-background-color:#fff6a5;</string>
+       <string notr="true">color:rgb(255, 255, 0);
+background-color:rgb(170, 85, 127);</string>
       </property>
       <property name="text">
        <string>Поставщики</string>
@@ -108,9 +155,8 @@ background-color:#fff6a5;</string>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color:RGB(36, 50, 56);
-font-family: Candara;
-background-color:#fff6a5;</string>
+       <string notr="true">color:rgb(255, 255, 0);
+background-color:rgb(170, 85, 127);</string>
       </property>
       <property name="text">
        <string>Категории</string>
@@ -128,7 +174,7 @@ background-color:#fff6a5;</string>
       <property name="styleSheet">
        <string notr="true">color:RGB(36, 50, 56);
 font-family: Candara;
-background-color:#fff6a5;
+background-color:red;
 </string>
       </property>
       <property name="text">
@@ -143,7 +189,7 @@ background-color:#fff6a5;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>474</width>
+     <width>519</width>
      <height>21</height>
     </rect>
    </property>

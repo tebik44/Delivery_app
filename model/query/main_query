@@ -26,6 +26,24 @@ CREATE TABLE Products (
     FOREIGN KEY (SupplierID) REFERENCES Suppliers (SupplierID) ON DELETE CASCADE
 );
 
+CREATE TABLE Stores (
+    store_id INTEGER PRIMARY KEY,
+    store_name TEXT NOT NULL,
+    location TEXT
+);
+
+
+CREATE TABLE Deliveries (
+    delivery_id INTEGER PRIMARY KEY,
+    store_id INTEGER,
+    supplier_id INTEGER,
+    product_id INTEGER,
+    quantity INTEGER,
+    delivery_date DATE,
+    FOREIGN KEY (store_id) REFERENCES Stores (store_id),
+    FOREIGN KEY (supplier_id) REFERENCES Suppliers (SupplierID),
+    FOREIGN KEY (product_id) REFERENCES Products (ProductID)
+);
 
 -- Добавляем категории продуктов
 INSERT INTO Categories (CategoryName) VALUES
@@ -59,3 +77,14 @@ INSERT INTO Products (ProductName, CategoryID, SupplierID, StockQuantity, UnitPr
 -- Добавляем пользователя
 INSERT INTO Uesr (Login, Password) VALUES
 ('admin', 'ad')
+
+-- Заполнение таблицы Stores
+INSERT INTO Stores (store_name, location) VALUES
+    ('Продуктовый магазин "Зелёный угол"', 'Улица Первомайская, 10'),
+    ('Мясной рынок "Сочное мясо"', 'Улица Свободы, 25'),
+    ('Магазин "Сладкая жизнь"', 'Площадь Ленина, 5');
+
+INSERT INTO Deliveries (store_id, supplier_id, product_id, quantity, delivery_date) VALUES
+(1, 1, 1, 50, '2023-11-01'),
+(2, 2, 2, 25, '2023-11-02'),
+(3, 3, 3, 100, '2023-11-03');
