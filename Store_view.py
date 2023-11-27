@@ -40,7 +40,7 @@ class StoreData(QMainWindow):
 
         self.pushButton_3.clicked.connect(self.exit)
 
-        self.tableView.doubleClicked.connect(self.update_row)
+        # self.tableView.doubleClicked.connect(self.update_row)
 
     def add_new_category(self):
         self.add = AddStore(self.args[0])
